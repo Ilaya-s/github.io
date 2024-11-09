@@ -1,1 +1,151 @@
-hello world
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .calculator {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+
+        .calculator h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        input[type="number"], select {
+            width: 80%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 12px;
+            width: 80%;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .error {
+            color: red;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="calculator">
+    <h2>Calculator</h2>
+
+    <div class="input-group">
+        <input type="number" id="num1" placeholder="Enter first number" required>
+    </div>
+    
+    <div class="input-group">
+        <input type="number" id="num2" placeholder="Enter second number" required>
+    </div>
+
+    <div class="input-group">
+        <select id="operation">
+            <option value="+">+</option>
+            <option value="-">-</option>
+            <option value="*">*</option>
+            <option value="/">/</option>
+        </select>
+    </div>
+
+    <button onclick="performCalculation()">Calculate</button>
+
+    <div id="result" class="result"></div>
+    <div id="error" class="error"></div>
+</div>
+
+<script>
+    function performCalculation() {
+        // Get input values and operation
+        var num1 = parseFloat(document.getElementById('num1').value);
+        var num2 = parseFloat(document.getElementById('num2').value);
+        var operation = document.getElementById('operation').value;
+        
+        // Clear previous results or errors
+        document.getElementById('result').innerText = '';
+        document.getElementById('error').innerText = '';
+
+        // Check if both inputs are valid numbers
+        if (isNaN(num1) || isNaN(num2)) {
+            document.getElementById('error').innerText = 'Please enter valid numbers for both fields.';
+            return;
+        }
+
+        try {
+            var result;
+            // Perform the calculation based on the selected operation
+            switch (operation) {
+                case '+':
+                    result = num1 + num2;
+                    break;
+                case '-':
+                    result = num1 - num2;
+                    break;
+                case '*':
+                    result = num1 * num2;
+                    break;
+                case '/':
+                    if (num2 === 0) {
+                        throw new Error("Division by zero is not allowed.");
+                    }
+                    result = num1 / num2;
+                    break;
+                default:
+                    throw new Error("Invalid operation.");
+            }
+
+            // Display the result
+            document.getElementById('result').innerText = 'Result: ' + result;
+        } catch (e) {
+            document.getElementById('error').innerText = 'Error: ' + e.message;
+        }
+    }
+</script>
+
+</body>
+</html>
